@@ -4,8 +4,18 @@ COPY init_laravel.sh /root
 # シェルスクリプトが LF でないと実行されないので、念のため LF に変換をおこなう。
 RUN sed -i 's/\r//' /root/init_laravel.sh
 
-COPY ./php.ini /usr/local/etc/php/
+###########################################################
+# PHP の設定
+###########################################################
+# RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
+COPY ./my-php.ini /usr/local/etc/php/conf.d/my-php.ini
+
+
+###########################################################
+# モジュールのインストール
+###########################################################
 # ssh2.so のインストール方法
 # 参考：https://stackoverflow.com/questions/49886490/ssh2-for-php7-macos
 
